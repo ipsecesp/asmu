@@ -3,7 +3,7 @@
 // func MemXor(dst, src1, src2 *byte, nbytes int)
 TEXT ·MemXor(SB), NOSPLIT|NOFRAME, $0-32
     MOVQ    dst+(0*8)(FP), DI
-	MOVQ    src1+(1*8)(FP), SI
+    MOVQ    src1+(1*8)(FP), SI
     MOVQ    src2+(2*8)(FP), DX
     MOVQ    nbytes+(3*8)(FP), CX
 
