@@ -27,7 +27,7 @@ _short:
     MOVQ    CX, ret+(2*8)(FP)
     MOVQ    $1, ret+(3*8)(FP)
 
-    MOVQ    $rdset_t<>(SB), DX
+    MOVQ    $rndset_t<>(SB), DX
     JMP     -8(DX)(CX*8)
 
 _pre:
@@ -78,40 +78,40 @@ _fail:
     RET
 
 
-TEXT rdset1<>(SB), NOSPLIT|NOFRAME, $0-0
+TEXT rndset1<>(SB), NOSPLIT|NOFRAME, $0-0
     MOVB    SI, (DI)
     RET
 
-TEXT rdset2<>(SB), NOSPLIT|NOFRAME, $0-0
+TEXT rndset2<>(SB), NOSPLIT|NOFRAME, $0-0
     MOVW    SI, (DI)
     RET
 
-TEXT rdset3<>(SB), NOSPLIT|NOFRAME, $0-0
+TEXT rndset3<>(SB), NOSPLIT|NOFRAME, $0-0
     MOVW    SI, (DI)
     BSWAPQ  SI
     MOVB    SI, 2(DI)
     RET
 
-TEXT rdset4<>(SB), NOSPLIT|NOFRAME, $0-0
+TEXT rndset4<>(SB), NOSPLIT|NOFRAME, $0-0
     MOVL    SI, (DI)
     RET
 
-TEXT rdset5_7<>(SB), NOSPLIT|NOFRAME, $0-0
+TEXT rndset5_7<>(SB), NOSPLIT|NOFRAME, $0-0
     MOVL    SI, (DI)
     BSWAPQ  SI
     MOVL    SI, -4(DI)(CX*1)
     RET
 
-TEXT rdset8<>(SB), NOSPLIT|NOFRAME, $0-0
+TEXT rndset8<>(SB), NOSPLIT|NOFRAME, $0-0
     MOVQ    SI, (DI)
     RET
 
-DATA    rdset_t<>+( 0*8)(SB)/8,    $rdset1<>(SB)
-DATA    rdset_t<>+( 1*8)(SB)/8,    $rdset2<>(SB)
-DATA    rdset_t<>+( 2*8)(SB)/8,    $rdset3<>(SB)
-DATA    rdset_t<>+( 3*8)(SB)/8,    $rdset4<>(SB)
-DATA    rdset_t<>+( 4*8)(SB)/8,    $rdset5_7<>(SB)
-DATA    rdset_t<>+( 5*8)(SB)/8,    $rdset5_7<>(SB)
-DATA    rdset_t<>+( 6*8)(SB)/8,    $rdset5_7<>(SB)
-DATA    rdset_t<>+( 7*8)(SB)/8,    $rdset8<>(SB)
-GLOBL   rdset_t<>(SB),             (RODATA|NOPTR), $(8*8)
+DATA    rndset_t<>+( 0*8)(SB)/8,    $rndset1<>(SB)
+DATA    rndset_t<>+( 1*8)(SB)/8,    $rndset2<>(SB)
+DATA    rndset_t<>+( 2*8)(SB)/8,    $rndset3<>(SB)
+DATA    rndset_t<>+( 3*8)(SB)/8,    $rndset4<>(SB)
+DATA    rndset_t<>+( 4*8)(SB)/8,    $rndset5_7<>(SB)
+DATA    rndset_t<>+( 5*8)(SB)/8,    $rndset5_7<>(SB)
+DATA    rndset_t<>+( 6*8)(SB)/8,    $rndset5_7<>(SB)
+DATA    rndset_t<>+( 7*8)(SB)/8,    $rndset8<>(SB)
+GLOBL   rndset_t<>(SB),             (RODATA|NOPTR), $(8*8)

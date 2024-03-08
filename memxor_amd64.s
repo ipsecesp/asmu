@@ -27,14 +27,14 @@ _ge_128:
     XORQ    R8, R8
 
 _loop128:
-    VMOVDQU (0*32)(DX)(R8*1), Y0
+    VMOVUPS (0*32)(DX)(R8*1), Y0
     VMOVUPS (1*32)(DX)(R8*1), Y1
-    VMOVDQU (2*32)(DX)(R8*1), Y2
+    VMOVUPS (2*32)(DX)(R8*1), Y2
     VMOVUPS (3*32)(DX)(R8*1), Y3
     
-    VPXOR   (0*32)(SI)(R8*1), Y0, Y0
+    VXORPS  (0*32)(SI)(R8*1), Y0, Y0
     VXORPS  (1*32)(SI)(R8*1), Y1, Y1
-    VPXOR   (2*32)(SI)(R8*1), Y2, Y2
+    VXORPS  (2*32)(SI)(R8*1), Y2, Y2
     VXORPS  (3*32)(SI)(R8*1), Y3, Y3
     
     VMOVDQU Y0, (0*32)(DI)(R8*1)
@@ -57,7 +57,7 @@ _lt_128:
 
 _loop16:
     VMOVUPS (DX)(R8*1), X0
-    VPXOR   (SI)(R8*1), X0, X0
+    VXORPS  (SI)(R8*1), X0, X0
     VMOVUPS X0, (DI)(R8*1)
     
     LEAQ    16(R8), R8

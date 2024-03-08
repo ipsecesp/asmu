@@ -13,11 +13,11 @@ func memcopyGeneric(dst, src *byte, nbytes int) {
 		return
 	}
 	dstptr, srcptr := unsafe.Pointer(dst), unsafe.Pointer(src)
-	n := 0
+	n := nbytes & -wsize
 
 	if uintptr(dstptr) < uintptr(srcptr) {
 		// Copies forward
-		for n = nbytes & -wsize; n > 0; n -= wsize {
+		for ; n > 0; n -= wsize {
 			*(*uintptr)(dstptr) = *(*uintptr)(srcptr)
 			dstptr = unsafe.Add(dstptr, wsize)
 			srcptr = unsafe.Add(srcptr, wsize)
@@ -32,7 +32,7 @@ func memcopyGeneric(dst, src *byte, nbytes int) {
 		dstptr = unsafe.Add(dstptr, nbytes)
 		srcptr = unsafe.Add(srcptr, nbytes)
 
-		for n = nbytes & -wsize; n > 0; n -= wsize {
+		for ; n > 0; n -= wsize {
 			dstptr = unsafe.Add(dstptr, -wsize)
 			srcptr = unsafe.Add(srcptr, -wsize)
 			*(*uintptr)(dstptr) = *(*uintptr)(srcptr)
