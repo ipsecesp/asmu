@@ -9,10 +9,6 @@ TEXT ·ReadTSC(SB), NOSPLIT|NOFRAME, $0-8
     RDTSC
     SHLQ    $32, DX
     ORQ     AX, DX
-    MOVQ    DX, R8
 
-    XORQ    AX, AX
-    CPUID
-
-    MOVQ    R8, ret+(0*8)(FP)
+    MOVQ    DX, ret+(0*8)(FP)
     RET
