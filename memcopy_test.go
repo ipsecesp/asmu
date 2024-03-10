@@ -13,9 +13,8 @@ func memcpyInit(length, offset int) (exp, dst, src []byte) {
 		offset *= -1
 	}
 	exp = make([]byte, length)
-	b := make([]byte, length+offset)
-	dst, src = b[:length], b[offset:]
-	if !fwd {
+	dst = make([]byte, length+offset)
+	if dst, src = dst[:length], dst[offset:]; !fwd {
 		dst, src = src, dst
 	}
 	for i := 0; i < len(src); i++ {
@@ -42,7 +41,7 @@ func testMemCopy(t *testing.T, offset int, memcpy func(*byte, *byte, int)) {
 			memcpy((*byte)(&dst[0]), (*byte)(&src[0]), nbytes)
 
 			for i := 0; i < nbytes; i++ {
-				if exp[i] != dst[i] {
+				if dst[i] != exp[i] {
 					t.Fatalf("byte mismatch (at: %d; exp: %d; got: %d)", i, exp[i], dst[i])
 				}
 			}
@@ -90,6 +89,14 @@ func BenchmarkMemCopyGeneric_Forward(b *testing.B) {
 	benchMemCopy(b, 1, memcopyGeneric)
 }
 
+func BenchmarkMemCopyGeneric_Backward(b *testing.B) {
+	benchMemCopy(b, -1, memcopyGeneric)
+}
+
 func BenchmarkMemCopyNaif_Forward(b *testing.B) {
 	benchMemCopy(b, 1, memcopyNaif)
+}
+
+func BenchmarkMemCopyNaif_Backward(b *testing.B) {
+	benchMemCopy(b, -1, memcopyNaif)
 }

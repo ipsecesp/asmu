@@ -33,7 +33,7 @@ func memsetNaif(dst *byte, chr byte, nbytes int) {
 			uintptr(nbytes),
 			uintptr(nbytes),
 		}))
-		nbytes -= 1
+		nbytes--
 
 		for _ = d[nbytes]; nbytes >= 0; nbytes-- {
 			d[nbytes] = chr

@@ -87,33 +87,24 @@ _fwd_loop128:
     RET 
 
 _bwd:
-    MOVQ    CX, R9
-    ANDQ    $-128, R9
-    NEGQ    R9
-    XORQ    R8, R8
-
-    LEAQ    -32(DI)(CX*1), DI
-    LEAQ    -32(SI)(CX*1), SI
+    MOVQ    CX, R8
+    ANDQ    $127, CX
 
 _bwd_loop128:
-    VMOVUPS (-3*32)(SI)(R8*1), Y0
-    VMOVUPS (-2*32)(SI)(R8*1), Y1
-    VMOVUPS (-1*32)(SI)(R8*1), Y2
-    VMOVUPS (-0*32)(SI)(R8*1), Y3
-    VMOVUPS Y3, (-0*32)(DI)(R8*1)
-    VMOVUPS Y2, (-1*32)(DI)(R8*1)
-    VMOVUPS Y1, (-2*32)(DI)(R8*1)
-    VMOVUPS Y0, (-3*32)(DI)(R8*1)
+    VMOVUPS (-4*32)(SI)(R8*1), Y0
+    VMOVUPS (-3*32)(SI)(R8*1), Y1
+    VMOVUPS (-2*32)(SI)(R8*1), Y2
+    VMOVUPS (-1*32)(SI)(R8*1), Y3
+    VMOVUPS Y3, (-1*32)(DI)(R8*1)
+    VMOVUPS Y2, (-2*32)(DI)(R8*1)
+    VMOVUPS Y1, (-3*32)(DI)(R8*1)
+    VMOVUPS Y0, (-4*32)(DI)(R8*1)
     LEAQ    -128(R8), R8
-    CMPQ    R8, R9
-    JNE     _bwd_loop128
+    CMPQ    R8, CX
+    JA     _bwd_loop128
 
-    ANDQ    $127, CX
+    TESTQ   R9, R9
     JZ      _done
-
-    SUBQ    CX, R8
-    LEAQ    (DI)(R8*1), DI
-    LEAQ    (SI)(R8*1), SI
 
     CMPQ    CX, $32
     JA      _gt_32_256

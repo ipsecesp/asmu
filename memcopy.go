@@ -61,15 +61,16 @@ func memcopyNaif(dst, src *byte, nbytes int) {
 		uintptr(nbytes),
 		uintptr(nbytes),
 	}))
-	_, _ = d[nbytes-1], s[nbytes-1]
+	nbytes--
+	_, _ = d[nbytes], s[nbytes]
 
 	if uintptr(dstptr) < uintptr(srcptr) {
-		for i := 0; i < nbytes; i++ {
+		for i := 0; i <= nbytes; i++ {
 			d[i] = s[i]
 		}
 	} else {
-		for i := nbytes - 1; i >= 0; i-- {
-			d[i] = s[i]
+		for ; nbytes >= 0; nbytes-- {
+			d[nbytes] = s[nbytes]
 		}
 	}
 }
