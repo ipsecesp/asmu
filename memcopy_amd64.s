@@ -103,7 +103,7 @@ _bwd_loop128:
     CMPQ    R8, CX
     JA     _bwd_loop128
 
-    TESTQ   R9, R9
+    TESTQ   CX, CX
     JZ      _done
 
     CMPQ    CX, $32
