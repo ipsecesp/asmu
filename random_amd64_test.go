@@ -7,9 +7,10 @@ import (
 )
 
 func TestRandomBytes_Filling(t *testing.T) {
-	cases := []int{
-		1, 2, 3, 4, 5, 6, 7, 8,
-		15, 16, 31, 32, 63, 64, 127, 128,
+	cases := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}
+	for i := range [16]struct{}{} {
+		i = (i + 1) * 16
+		cases = append(cases, i-1, i)
 	}
 	for _, c := range cases {
 		nbytes := c
@@ -28,13 +29,31 @@ func TestRandomBytes_Filling(t *testing.T) {
 			if n == 0 || (n == 1 && dst[0] == 0) {
 				t.Error(`empty result`)
 			} else if n >= 2 {
-				p := unsafe.Add(unsafe.Pointer(&dst[0]), n-2)
-				for i := 0; i < n; i++ {
+				n = -2
+				p := unsafe.Add(unsafe.Pointer(&dst[0]), n)
+				for ; n >= 0; n-- {
 					if *(*int16)(p) == int16(0) {
-						t.Errorf("two or more zeros in a row (at: %d)", n-i)
+						t.Logf("two or more zeros in a row (at: %d)", n)
 						break
 					}
 					p = unsafe.Add(p, -1)
+				}
+			}
+		})
+	}
+}
+
+func TestRandUint64n(t *testing.T) {
+	cases := []uint64{10, 100, 1000}
+	for _, c := range cases {
+		n := c
+		t.Run(strconv.Itoa(int(n)), func(t *testing.T) {
+			for i := 0; i < int(n); i++ {
+				r, ok := RandUint64n(n)
+				if !ok {
+					t.Fatal(`invalid result`)
+				} else if r > n {
+					t.Fatalf("result is greater than the upper bound [%d, %d]", r, n)
 				}
 			}
 		})

@@ -2,6 +2,47 @@
 
 #define N_TRIES 20
 
+// func RandUint64n(n uint64) (uint64, bool)
+TEXT ·RandUint64n(SB), NOSPLIT|NOFRAME, $0-18
+    MOVQ    n+(0*8)(FP), AX
+
+    TESTQ   AX, AX
+    JLE     _fail
+
+    LEAQ    -1(AX), CX
+    ORQ     $1, CX
+    BSRQ    CX, CX
+    LEAQ    -63(CX), CX
+    NEGQ    CX
+
+    MOVQ    $-1, DX
+    SHRQ    CX, DX
+
+_loop:
+    MOVQ    $N_TRIES, R8
+
+_retry:
+    RDRANDQ SI
+    JC      _clause
+    DECQ    R8
+    JZ      _fail
+    JMP     _retry
+
+_clause:
+    ANDQ    DX, SI
+    CMPQ    SI, AX
+    JA      _loop
+
+_done:
+    MOVQ    SI, ret+(1*8)(FP)
+    MOVQ    $1, ret+(2*8)(FP)
+    RET
+
+_fail:
+    MOVQ    $0, ret+(1*8)(FP)
+    MOVQ    $0, ret+(2*8)(FP)
+    RET
+
 // func RandomBytes(dst *byte, nbytes int) (int, bool)
 TEXT ·RandomBytes(SB), NOSPLIT|NOFRAME, $0-24
     MOVQ    dst+(0*8)(FP), DI
