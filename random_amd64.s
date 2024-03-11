@@ -9,7 +9,8 @@ TEXT ·RandUint64n(SB), NOSPLIT|NOFRAME, $0-18
     TESTQ   AX, AX
     JLE     _fail
 
-    LEAQ    -1(AX), CX
+    LEAQ    -1(AX), AX
+    MOVQ    AX, CX
     ORQ     $1, CX
     BSRQ    CX, CX
     LEAQ    -63(CX), CX

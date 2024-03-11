@@ -44,7 +44,7 @@ func TestRandomBytes_Filling(t *testing.T) {
 }
 
 func TestRandUint64n(t *testing.T) {
-	cases := []uint64{10, 100, 1000}
+	cases := []uint64{10, 100, 1000, 10000}
 	for _, c := range cases {
 		n := c
 		t.Run(strconv.Itoa(int(n)), func(t *testing.T) {
@@ -53,7 +53,7 @@ func TestRandUint64n(t *testing.T) {
 				if !ok {
 					t.Fatal(`invalid result`)
 				} else if r > n {
-					t.Fatalf("result is greater than the upper bound [%d, %d]", r, n)
+					t.Fatalf("result is greater than the upper bound [%d, %d)", r, n)
 				}
 			}
 		})
