@@ -9,9 +9,12 @@ TEXT ·MemXor(SB), NOSPLIT|NOFRAME, $0-32
 
     TESTQ   CX, CX
     JLE     _done
+
     MOVQ    CX, AX
+
     CMPQ    CX, $16
     JAE     _ge_16
+    
     XORQ    CX, CX
     JMP     _loop1
 
@@ -31,17 +34,14 @@ _loop128:
     VMOVUPS (1*32)(DX)(R8*1), Y1
     VMOVUPS (2*32)(DX)(R8*1), Y2
     VMOVUPS (3*32)(DX)(R8*1), Y3
-    
     VXORPS  (0*32)(SI)(R8*1), Y0, Y0
     VXORPS  (1*32)(SI)(R8*1), Y1, Y1
     VXORPS  (2*32)(SI)(R8*1), Y2, Y2
     VXORPS  (3*32)(SI)(R8*1), Y3, Y3
-    
-    VMOVDQU Y0, (0*32)(DI)(R8*1)
+    VMOVUPS Y0, (0*32)(DI)(R8*1)
     VMOVUPS Y1, (1*32)(DI)(R8*1)
-    VMOVDQU Y2, (2*32)(DI)(R8*1)
+    VMOVUPS Y2, (2*32)(DI)(R8*1)
     VMOVUPS Y3, (3*32)(DI)(R8*1)
-
     LEAQ    128(R8), R8
     CMPQ    R8, CX
     JNE     _loop128

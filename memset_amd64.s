@@ -53,7 +53,7 @@ _tail:
     RET
 
 _set17_32:
-    MOVOU   X0, (DI)
+    MOVUPS  X0, (DI)
     MOVUPS  X0, -16(DI)(CX*1)
 
 _done:
