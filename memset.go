@@ -1,6 +1,8 @@
 package asmu
 
-import "unsafe"
+import (
+	"unsafe"
+)
 
 func memsetGeneric(dst *byte, chr byte, nbytes int) {
 	const wsize = int(unsafe.Sizeof(uintptr(0)))

@@ -10,10 +10,11 @@ func memxorGeneric(dst, src1, src2 *byte, nbytes int) {
 	if nbytes == 0 {
 		return
 	}
-	dstptr := unsafe.Pointer(dst)
-	src1ptr := unsafe.Pointer(src1)
-	src2ptr := unsafe.Pointer(src2)
-
+	var (
+		dstptr  = unsafe.Pointer(dst)
+		src1ptr = unsafe.Pointer(src1)
+		src2ptr = unsafe.Pointer(src2)
+	)
 	if nbytes >= wsize {
 		if nbytes&int(wsize-1) != 0 {
 			n := nbytes - wsize
@@ -56,7 +57,7 @@ func memxorNaif(dst, src1, src2 *byte, nbytes int) {
 		uintptr(nbytes),
 		uintptr(nbytes),
 	}))
-	nbytes -= 1
+	nbytes--
 	_, _, _ = d[nbytes], s1[nbytes], s2[nbytes]
 
 	for ; nbytes >= 0; nbytes-- {

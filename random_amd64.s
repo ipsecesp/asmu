@@ -44,6 +44,7 @@ _fail:
     MOVQ    $0, ret+(2*8)(FP)
     RET
 
+
 // func RandomBytes(dst *byte, nbytes int) (int, bool)
 TEXT ·RandomBytes(SB), NOSPLIT|NOFRAME, $0-24
     MOVQ    dst+(0*8)(FP), DI

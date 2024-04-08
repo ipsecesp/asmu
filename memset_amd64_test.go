@@ -8,6 +8,10 @@ func TestMemSet(t *testing.T) {
 	testMemSet(t, MemSet)
 }
 
-func BenchmarkMemSet(b *testing.B) {
-	benchMemSet(b, MemSet)
+func TestMemSetAVX(t *testing.T) {
+	testMemSet(t, memsetAVX)
+}
+
+func BenchmarkMemSetAVX(b *testing.B) {
+	benchMemSet(b, memsetAVX)
 }

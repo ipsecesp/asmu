@@ -2,6 +2,12 @@
 
 // func MemCopy(dst, src *byte, nbytes int)
 TEXT ·MemCopy(SB), NOSPLIT|NOFRAME, $0-24
+    MOVQ    ·memcopyImpl(SB), DX
+    JMP     (DX)
+
+
+// func memcopyAVX(dst, src *byte, nbytes int)
+TEXT ·memcopyAVX(SB), NOSPLIT|NOFRAME, $0-24
     MOVQ    dst+(0*8)(FP), DI
     MOVQ    src+(1*8)(FP), SI
     MOVQ    nbytes+(2*8)(FP), CX

@@ -6,7 +6,7 @@ import (
 	"unsafe"
 )
 
-func memcpyInit(length, offset int) (exp, dst, src []byte) {
+func memcopyInit(length, offset int) (exp, dst, src []byte) {
 	fwd := true
 	if offset < 0 {
 		fwd = false
@@ -37,7 +37,7 @@ func testMemCopy(t *testing.T, offset int, memcpy func(*byte, *byte, int)) {
 	for _, c := range cases {
 		nbytes := c
 		t.Run(strconv.Itoa(nbytes), func(t *testing.T) {
-			exp, dst, src := memcpyInit(nbytes, offset)
+			exp, dst, src := memcopyInit(nbytes, offset)
 			memcpy((*byte)(&dst[0]), (*byte)(&src[0]), nbytes)
 
 			for i := 0; i < nbytes; i++ {
@@ -70,7 +70,7 @@ func benchMemCopy(b *testing.B, offset int, memcpy func(*byte, *byte, int)) {
 		nbytes := c
 		b.Run(strconv.Itoa(nbytes), func(b *testing.B) {
 			b.StopTimer()
-			_, dst, src := memcpyInit(nbytes, offset)
+			_, dst, src := memcopyInit(nbytes, offset)
 			b.SetBytes(int64(nbytes))
 			b.ResetTimer()
 			b.StartTimer()

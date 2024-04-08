@@ -5,3 +5,18 @@ package asmu
 //
 //go:noescape
 func MemSet(dst *byte, chr byte, nbytes int)
+
+//go:noescape
+func memsetAVX(dst *byte, chr byte, nbytes int)
+
+var (
+	memsetImpl func(dst *byte, chr byte, nbytes int) = memsetGeneric
+)
+
+func init() {
+	detect()
+
+	if hasAVX {
+		memsetImpl = memsetAVX
+	}
+}

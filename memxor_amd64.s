@@ -2,6 +2,12 @@
 
 // func MemXor(dst, src1, src2 *byte, nbytes int)
 TEXT ·MemXor(SB), NOSPLIT|NOFRAME, $0-32
+    MOVQ    ·memxorImpl(SB), DX
+    JMP     (DX)
+
+
+// func memxorAVX(dst, src1, src2 *byte, nbytes int)
+TEXT ·memxorAVX(SB), NOSPLIT|NOFRAME, $0-32
     MOVQ    dst+(0*8)(FP), DI
     MOVQ    src1+(1*8)(FP), SI
     MOVQ    src2+(2*8)(FP), DX

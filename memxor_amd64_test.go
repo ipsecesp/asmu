@@ -8,6 +8,10 @@ func TestMemXor(t *testing.T) {
 	testMemXor(t, MemXor)
 }
 
-func BenchmarkMemXor(b *testing.B) {
-	benchMemXor(b, MemXor)
+func TestMemXorAVX(t *testing.T) {
+	testMemXor(t, memxorAVX)
+}
+
+func BenchmarkMemXorAVX(b *testing.B) {
+	benchMemXor(b, memxorAVX)
 }

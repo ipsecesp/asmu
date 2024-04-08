@@ -2,6 +2,12 @@
 
 // func MemSet(dst *byte, chr byte, nbytes int)
 TEXT ·MemSet(SB), NOSPLIT|NOFRAME, $0-24
+    MOVQ    ·memsetImpl(SB), DX
+    JMP     (DX)
+
+
+// func memsetAVX(dst *byte, chr byte, nbytes int)
+TEXT ·memsetAVX(SB), NOSPLIT|NOFRAME, $0-24
     MOVQ    dst+(0*8)(FP), DI
     MOVBQZX chr+(1*8)(FP), SI
     MOVQ    nbytes+(2*8)(FP), CX
